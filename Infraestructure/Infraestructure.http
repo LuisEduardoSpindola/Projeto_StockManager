@@ -1,0 +1,6 @@
+@Infraestructure_HostAddress = http://localhost:5262
+
+GET {{Infraestructure_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

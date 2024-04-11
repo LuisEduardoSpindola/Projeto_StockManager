@@ -1,0 +1,53 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "StockManagerContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "Domain",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 2,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[ItemEstoque]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Lojas]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Produtos]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "luis-eduardo\\sqlmain.StockManager.dbo",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
+}

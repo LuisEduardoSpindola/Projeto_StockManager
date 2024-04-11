@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<!-- Start Landing Page -->
+<div class="landing-page">
+    <div class="content">
+        <div class="container">
+            <div class="info">
+                <h1>StockManager</h1>
+                <br>
+                <p>Sistema de gestão de negócios solicitado pelo DTI da UGB!</p>
+                <br>
+                @{
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="ItemEstoque" asp-action="Index" class="btn btn-outline-primary">Verificar Estoque</a>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-primary">Fazer Login</a>
+                    }
+                }
+            </div>
+            <div class="image">
+                <img src="https://i.postimg.cc/qqztnpQG/HomePNG.png">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Landing Page -->
+
+<style>
+    /* Start Global Rules */
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Small */
+    @@media (min-width: 768px) {
+        .container {
+            width: 750px;
+        }
+    }
+
+    /* Medium */
+    @@media (min-width: 992px) {
+        .container {
+            width: 970px;
+        }
+    }
+
+    /* Large */
+    @@media (min-width: 1200px) {
+        .container {
+            width: 1270px;
+        }
+    }
+    /* End Global Rules */
+
+    /* Start Landing Page */
+    .landing-page .content .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px; /* Reduzi o espaçamento entre os elementos */
+        max-width: 80%; /* Defina a largura máxima em porcentagem */
+        overflow-x: hidden; /* Esconde a barra de rolagem horizontal se ainda existir */
+    }
+
+    @@media (max-width: 767px) {
+        .landing-page .content .container {
+            gap: 10px; /* Ajustei o espaçamento para telas menores */
+            min-height: calc(100vh - 101px);
+            justify-content: center;
+            flex-direction: column-reverse;
+        }
+
+        .landing-page .content .info {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+    }
+
+    .landing-page .content .info p {
+        margin: 0;
+        line-height: 1.6;
+        font-size: 15px;
+        color: #5d5d5d;
+    }
+
+    .landing-page .content .info {
+        border: 0;
+        border-radius: 20px;
+        padding: 12px 30px;
+        margin-top: 30px;
+    }
+
+    .landing-page .content .image img {
+        max-width: 100%;
+    }
+    /* End Landing Page */
+
+
+</style>
