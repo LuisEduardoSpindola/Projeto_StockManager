@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Models;
 
-// Add profile data for application users by adding properties to the StockUser class
 public class StockUser : IdentityUser
 {
-    public string Nome { get; set; }
+    public string StockUserName { get; set; }
 
-    public int CodAcesso { get; set; }
 }
 

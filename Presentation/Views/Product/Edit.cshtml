@@ -1,0 +1,48 @@
+﻿@model Domain.Models.Product
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h4>Editar informações do produto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductId" />
+            <div class="form-group">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BuyValue" class="control-label"></label>
+                <input asp-for="BuyValue" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="BuyValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SellValue" class="control-label"></label>
+                <input asp-for="SellValue" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="SellValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Img" class="control-label"></label>
+                <input asp-for="Img" class="form-control" />
+                <span asp-validation-for="Img" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-outline-primary" /> | <a asp-action="Index" class="bi bi-skip-backward-fill btn btn-outline-primary"> Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

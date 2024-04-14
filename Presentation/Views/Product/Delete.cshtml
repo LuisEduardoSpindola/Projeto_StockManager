@@ -1,0 +1,29 @@
+﻿@model Domain.Models.Product
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div>
+    <div style="display:flex; justify-content:center; align-items: center;">
+        <div style="text-align: center; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15); border-radius: 10px; padding: 20px; margin: 20px auto; width: 50%;">
+            <h5>Você quer mesmo deletar esse item? (Ao deletar o produto, os registros de saida/entrada/estoque também serão removidos)</h5>
+            <br></br>
+            <img src="@Html.DisplayFor(model => model.Img)" width="170" height="170" style="border-radius: 50%;">
+            <br>
+            <h2>@Html.DisplayFor(model => model.ProductName)</h2>
+            <br>
+            <p>@Html.DisplayFor(model => model.Description)</p>
+            <br>
+            <h5>Valor de compra: @Html.DisplayFor(model => model.BuyValue)</h5>
+            <br>
+            <h5>Valor recomendado para venda: @Html.DisplayFor(model => model.SellValue)</h5>
+            <br>
+            <form asp-action="Delete">
+                <div class="form-group">
+                    <input type="submit" value="Deletar" class="btn btn-outline-danger" /> | <a asp-action="Index" class="bi bi-skip-backward-fill btn btn-outline-primary"> Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

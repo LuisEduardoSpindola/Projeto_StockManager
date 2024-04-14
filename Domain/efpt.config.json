@@ -16,19 +16,19 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[ItemEstoque]",
+         "Name": "[dbo].[Products]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Lojas]",
+         "Name": "[dbo].[StockItem]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Produtos]",
+         "Name": "[dbo].[Stores]",
          "ObjectType": 0
       }
    ],
-   "UiHint": "luis-eduardo\\sqlmain.StockManager.dbo",
+   "UiHint": "luis-eduardo\\sqlmain.StockManagerDB.dbo",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
