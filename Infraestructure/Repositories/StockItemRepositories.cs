@@ -35,7 +35,7 @@ namespace Infraestructure.Repositories
 
         public async Task<StockItem> GetStockById(int stockId)
         {
-            var stockItem = await _context.itensEstoque.FindAsync(stockId);
+            var stockItem = await _context.stockItems.FindAsync(stockId);
             if (stockItem == null)
             {
                 throw new Exception("Não encontrado + ");
@@ -50,7 +50,7 @@ namespace Infraestructure.Repositories
                 return await _context.Set<StockItem>().ToListAsync();
             }
 
-            return await _context.itensEstoque
+            return await _context.stockItems
                 .Where(n => n.StockProduct.ProductName.Contains(stockStoreOrProductName))
                 .ToListAsync();
         }
@@ -65,7 +65,7 @@ namespace Infraestructure.Repositories
         // Obter ItemEstoque por nome de Produto ou Loja
         public async Task<StockItem> GetStockDetails(int stockId)
         {
-            var stockItem = await _context.itensEstoque
+            var stockItem = await _context.stockItems
                 .Include(s => s.StockProduct)
                 .Include(s => s.StockStore)
                 .FirstOrDefaultAsync(m => m.StockId == stockId);

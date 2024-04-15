@@ -167,7 +167,6 @@ namespace Infraestructure.Controllers
                 }
             }
 
-            // Em caso de erro, reatribuir os valores dos produtos e lojas para as views
             var products = await _productRepository.GetAllProducts();
             var stores = await _storeRepository.GetAllStores();
 

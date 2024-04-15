@@ -11,6 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//builder.Services.AddHttpClient<ViaCEPService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -13,8 +13,9 @@
         <br>
         <h5>Telefone: @Html.DisplayFor(model => model.Phone)</h5>
         <br>
-        <h5>CEP: @Html.DisplayFor(model => model.Adress)</h5>
-
+        <h5>Cidade: @Html.DisplayFor(model => model.City)</h5>
+        <h5>Bairro: @Html.DisplayFor(model => model.Neighborhood)</h5>
+        <h5>@Html.DisplayFor(model => model.Adress)</h5>
         <div style="margin-top: 20px;">
             @Html.ActionLink("Editar", "Edit", new { id = Model.StoreId }, new { @class = "bi bi-pencil-square btn btn-outline-warning" }) |
             @Html.ActionLink("Voltar", "Index", "Store", null, new { @class = "btn btn-outline-primary" })

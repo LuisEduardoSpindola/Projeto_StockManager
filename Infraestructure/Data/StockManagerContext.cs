@@ -13,8 +13,8 @@ public class StockManagerContext : IdentityDbContext<StockUser>
     }
 
     public DbSet<Product> products { get; set; }
-    public DbSet<Store> lojas { get; set; }
-    public DbSet<StockItem> itensEstoque { get; set; }
+    public DbSet<Store> stores { get; set; }
+    public DbSet<StockItem> stockItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

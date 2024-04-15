@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructure.Migrations
 {
     [DbContext(typeof(StockManagerContext))]
-    [Migration("20240413212742_NewBase")]
-    partial class NewBase
+    [Migration("20240415185015_StockManagerMigration")]
+    partial class StockManagerMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,11 +37,13 @@ namespace Infraestructure.Migrations
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<byte[]>("Img")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Img")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("MinimunQty")
                         .HasColumnType("int")
@@ -54,6 +56,10 @@ namespace Infraestructure.Migrations
 
                     b.Property<decimal?>("SellValue")
                         .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductId");
 
@@ -77,6 +83,9 @@ namespace Infraestructure.Migrations
 
                     b.Property<int>("StockStoreId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StockId");
 
@@ -165,13 +174,22 @@ namespace Infraestructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StoreId"));
 
                     b.Property<string>("Adress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CEP")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Neighborhood")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .HasMaxLength(15)
@@ -182,9 +200,12 @@ namespace Infraestructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("StoreId");
 
-                    b.ToTable("lojas");
+                    b.ToTable("stores");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

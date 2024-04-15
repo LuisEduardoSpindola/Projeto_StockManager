@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.ViaCepAPI;
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,11 +14,13 @@ namespace Application.Controllers
     {
         private readonly IStore _storeRepository;
         private readonly UserManager<StockUser> _userManager;
+        private readonly ViaCEPService _viaCEPService;
 
-        public StoreController(IStore storeRepository, UserManager<StockUser> userManager)
+        public StoreController(IStore storeRepository, UserManager<StockUser> userManager, ViaCEPService viaCEPService)
         {
             _storeRepository = storeRepository;
             _userManager = userManager;
+           _viaCEPService = viaCEPService;
         }
 
         // POST: Loja/Create
@@ -33,6 +36,13 @@ namespace Application.Controllers
         {
             try
             {
+                var addressInfo = await _viaCEPService.GetAddressInfo(store.CEP);
+
+
+                store.Adress = addressInfo.Logradouro;
+                store.City = addressInfo.Cidade;
+                store.Neighborhood = addressInfo.Bairro;
+
                 var currentUser = (await _userManager.GetUserAsync(User)).Id.ToString();
                 store.UserId = currentUser;
                 await _storeRepository.CreateStore(store);
@@ -40,7 +50,7 @@ namespace Application.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", $"Ocorreu um erro ao adicionar o produto: {ex.Message}");
+                ModelState.AddModelError("", $"Ocorreu um erro ao adicionar a loja: {ex.Message}");
                 return View(store);
             }
         }
@@ -78,6 +88,7 @@ namespace Application.Controllers
         // GET: Loja/Edit/
         public async Task<IActionResult> Edit(int id)
         {
+
             var stores = await _storeRepository.GetStoreById(id);
             if (stores == null)
             {
@@ -103,6 +114,13 @@ namespace Application.Controllers
 
             try
             {
+                var addressInfo = await _viaCEPService.GetAddressInfo(store.CEP);
+
+
+                store.Adress = addressInfo.Logradouro;
+                store.City = addressInfo.Cidade;
+                store.Neighborhood = addressInfo.Bairro;
+
                 var currentUser = (await _userManager.GetUserAsync(User)).Id.ToString();
                 store.UserId = currentUser;
                 await _storeRepository.UpdateStore(store);
@@ -138,7 +156,6 @@ namespace Application.Controllers
             }
             catch (Exception ex)
             {
-                // Trate a exceção de maneira adequada
                 ModelState.AddModelError("", "Ocorreu um erro ao excluir a loja. Tente novamente.");
                 return RedirectToAction(nameof(Index));
             }

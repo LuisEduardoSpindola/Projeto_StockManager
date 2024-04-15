@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infraestructure.Migrations
 {
     /// <inheritdoc />
-    public partial class NewBase : Migration
+    public partial class StockManagerMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,37 +52,42 @@ namespace Infraestructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "lojas",
-                columns: table => new
-                {
-                    StoreId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StoreName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Adress = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_lojas", x => x.StoreId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "products",
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProductName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     BuyValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SellValue = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     MinimunQTY = table.Column<int>(type: "int", nullable: true),
-                    Img = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                    Img = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_products", x => x.ProductId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "stores",
+                columns: table => new
+                {
+                    StoreId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StoreName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CEP = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Neighborhood = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Adress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_stores", x => x.StoreId);
                 });
 
             migrationBuilder.CreateTable(
@@ -197,6 +202,7 @@ namespace Infraestructure.Migrations
                 {
                     StockId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StockProductId = table.Column<int>(type: "int", nullable: false),
                     StockStoreId = table.Column<int>(type: "int", nullable: false),
                     QTY = table.Column<int>(type: "int", nullable: false)
@@ -205,16 +211,16 @@ namespace Infraestructure.Migrations
                 {
                     table.PrimaryKey("PK_StockItem", x => x.StockId);
                     table.ForeignKey(
-                        name: "FK_StockItem_lojas_StockStoreId",
-                        column: x => x.StockStoreId,
-                        principalTable: "lojas",
-                        principalColumn: "StoreId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_StockItem_products_StockProductId",
                         column: x => x.StockProductId,
                         principalTable: "products",
                         principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StockItem_stores_StockStoreId",
+                        column: x => x.StockStoreId,
+                        principalTable: "stores",
+                        principalColumn: "StoreId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -296,10 +302,10 @@ namespace Infraestructure.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "lojas");
+                name: "products");
 
             migrationBuilder.DropTable(
-                name: "products");
+                name: "stores");
         }
     }
 }

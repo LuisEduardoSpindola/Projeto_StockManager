@@ -21,9 +21,20 @@ public partial class Store
     public string StoreName { get; set; }
 
     [Required]
-    [StringLength(250)]
-    [Display(Name = "CEP")]
-    public string Adress { get; set; }
+    [StringLength(8)]
+    [Display(Name = "CEP (Apenas números)")]
+    public string CEP { get; set; }
+
+
+    [Display(Name = "Cidade")]
+    public string? City { get; set; }
+
+
+    [Display(Name = "Bairro")]
+    public string? Neighborhood { get; set; }
+
+    [Display(Name = "Rua")]
+    public string? Adress { get; set; }
 
     [StringLength(15)]
     [Display(Name = "Telefone")]
