@@ -17,6 +17,8 @@ builder.Services.AddSwaggerGen();
 var conn = builder.Configuration.GetConnectionString("DefaultConn");
 builder.Services.AddDbContext<StockManagerContext>(options => options.UseSqlServer(conn));
 
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,8 +30,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//app.UseAuthentication();
-//app.UseAuthorization();
 
 app.MapControllers();
 

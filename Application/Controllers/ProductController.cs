@@ -5,6 +5,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Controllers
 {
@@ -12,10 +13,12 @@ namespace Application.Controllers
     public class ProductController : Controller
     {
         private readonly IProduct _productRepository;
+        private readonly UserManager<StockUser> _userManager;
 
-        public ProductController(IProduct productRepository)
+        public ProductController(IProduct productRepository, UserManager<StockUser> userManager)
         {
             _productRepository = productRepository;
+            _userManager = userManager;
         }
 
         // CREATE
@@ -30,13 +33,17 @@ namespace Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product)
         {
-            if (!ModelState.IsValid)
+            try 
             {
+                var currentUser = (await _userManager.GetUserAsync(User)).Id.ToString();
+                product.UserId = currentUser;
+                await _productRepository.CreateProduct(product);
+                return RedirectToAction(nameof(Index));
+            }catch (Exception ex) 
+            {
+                ModelState.AddModelError("", $"Ocorreu um erro ao adicionar o produto: {ex.Message}");
                 return View(product);
             }
-
-            await _productRepository.CreateProduct(product);
-            return RedirectToAction(nameof(Index));
         }
 
         // READ
@@ -45,13 +52,14 @@ namespace Application.Controllers
         {
             IEnumerable<Product> products;
 
+            var currentUser = _userManager.GetUserAsync(User).Result.Id;
             if (!string.IsNullOrEmpty(name))
             {
-                products = await _productRepository.GetProductByName(name);
+                products = _productRepository.GetProductByName(name).Result.Where(p => p.UserId == currentUser);
             }
             else
             {
-                products = await _productRepository.GetAllProducts();
+                products = _productRepository.GetAllProducts().Result.Where(p => p.UserId == currentUser);
             }
 
             return View(products);
@@ -90,19 +98,11 @@ namespace Application.Controllers
                 return BadRequest("O ID fornecido não corresponde ao produto a ser editado.");
             }
 
-            if (!ModelState.IsValid)
-            {
-                return View(product);
-            }
-
             try
             {
+                var currentUser = (await _userManager.GetUserAsync(User)).Id.ToString();
+                product.UserId = currentUser;
                 await _productRepository.UpdateProduct(product);
-            }
-            catch (DbUpdateException ex)
-            {
-                ModelState.AddModelError("", $"Ocorreu um erro ao atualizar o produto: {ex.Message}");
-                return View(product);
             }
             catch (KeyNotFoundException ex)
             {

@@ -14,6 +14,8 @@ public partial class StockItem
     [Key]
     public int StockId { get; set; }
 
+    public string UserId { get; set; }
+
 
     [Display(Name = "Produto")]
     public int StockProductId { get; set; }

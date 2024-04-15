@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Domain.Models;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Infraestructure.Controllers
 {
@@ -17,13 +18,15 @@ namespace Infraestructure.Controllers
         private readonly IStockItem _stockItemRepository;
         private readonly IProduct _productRepository;
         private readonly IStore _storeRepository;
+        private readonly UserManager<StockUser> _userManager;
 
-        public StockItemsController(IStockItem stockItemRepository, IProduct productRepository, IStore storeRepository)
+        public StockItemsController(IStockItem stockItemRepository, IProduct productRepository, IStore storeRepository, UserManager<StockUser> userManager)
         {
 
             _stockItemRepository = stockItemRepository;
             _productRepository = productRepository;
             _storeRepository = storeRepository;
+            _userManager = userManager;
         }
 
 
@@ -52,35 +55,41 @@ namespace Infraestructure.Controllers
         // POST: StockItems/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(StockItem itemEstoque)
+        public async Task<IActionResult> Create(StockItem stockItem)
         {
-            if (!ModelState.IsValid)
+
+            try 
             {
+                var currentUser = (await _userManager.GetUserAsync(User)).Id.ToString();
+                stockItem.UserId = currentUser;
                 var stores = await _storeRepository.GetAllStores();
                 var products = await _productRepository.GetAllProducts();
 
                 ViewBag.Stores = new SelectList(stores, "StoreId", "StoreName");
                 ViewBag.Products = new SelectList(products, "ProductId", "ProductName");
-                ModelState.AddModelError("", "Erro ao criar registro de item em estoque.");
-                return View(itemEstoque);
+                await _stockItemRepository.CreateStockItem(stockItem);
+                return RedirectToAction(nameof(Index));
             }
-
-            await _stockItemRepository.CreateStockItem(itemEstoque);
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex) 
+            {
+                ModelState.AddModelError("", $"Ocorreu um erro ao adicionar o registro: {ex.Message}");
+                return View(stockItem);
+            }
         }
 
         // GET: StockItems
         public async Task<IActionResult> Index(string name)
         {
             IEnumerable<StockItem> stockItens;
+            var currentUser = (await _userManager.GetUserAsync(User)).Id.ToString();
 
             if (!string.IsNullOrEmpty(name))
             {
-                stockItens = await _stockItemRepository.GetByProductName(name);
+                stockItens =  _stockItemRepository.GetByProductName(name).Result.Where(p => p.UserId == currentUser);
             }
             else
             {
-                stockItens = await _stockItemRepository.GetAllStockItens();
+                stockItens = _stockItemRepository.GetAllStockItens().Result.Where(p => p.UserId == currentUser);
             }
 
             foreach (var item in stockItens)
@@ -132,8 +141,6 @@ namespace Infraestructure.Controllers
             }
         }
 
-        //---------------------------------------------------------------------------------------------------------------
-
         // POST: StockItems/Edit/{Id}
 
         [HttpPost]
@@ -149,6 +156,8 @@ namespace Infraestructure.Controllers
             {
                 try
                 {
+                    var currentUser = (await _userManager.GetUserAsync(User)).Id.ToString();
+                    stockItem.UserId = currentUser;
                     await _stockItemRepository.UpdateStockItem(stockItem);
                     return RedirectToAction(nameof(Index));
                 }

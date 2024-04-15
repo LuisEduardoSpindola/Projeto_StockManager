@@ -13,6 +13,8 @@ public partial class Store
     [Key]
     public int StoreId { get; set; }
 
+    public string UserId { get; set; }
+
     [Required]
     [StringLength(100)]
     [Display(Name = "Nome da loja")]

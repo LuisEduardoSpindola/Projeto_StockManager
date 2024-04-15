@@ -11,6 +11,8 @@ public partial class Product
     [Key]
     public int ProductId { get; set; }
 
+    public string UserId { get; set; }
+
     [Required]
     [StringLength(100)]
     [Display(Name = "Nome do produto")]
