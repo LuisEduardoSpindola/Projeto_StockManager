@@ -4,9 +4,7 @@
     ViewData["Title"] = "Create ItemEstoque";
 }
 
-<h1>Create ItemEstoque</h1>
-
-<h4>ItemEstoque</h4>
+<h4>Adicionar item ao estoque</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -37,15 +35,12 @@
                 <span asp-validation-for="QTY" class="text-danger"></span>
             </div>
 
+            <br></br>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Adicionar" class="btn btn-outline-primary" /> | <a asp-action="Index" class="bi bi-skip-backward-fill btn btn-outline-primary"> Voltar</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

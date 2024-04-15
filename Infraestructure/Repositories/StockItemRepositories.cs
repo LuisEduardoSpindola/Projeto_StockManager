@@ -33,7 +33,7 @@ namespace Infraestructure.Repositories
             return await _context.Set<StockItem>().ToListAsync();
         }
 
-        public async Task<StockItem> GetStocktById(int stockId)
+        public async Task<StockItem> GetStockById(int stockId)
         {
             var stockItem = await _context.itensEstoque.FindAsync(stockId);
             if (stockItem == null)
@@ -41,6 +41,18 @@ namespace Infraestructure.Repositories
                 throw new Exception("Não encontrado + ");
             }
             return stockItem;
+        }
+
+        public async Task<IEnumerable<StockItem>> GetByProductName(string stockStoreOrProductName)
+        {
+            if (string.IsNullOrEmpty(stockStoreOrProductName))
+            {
+                return await _context.Set<StockItem>().ToListAsync();
+            }
+
+            return await _context.itensEstoque
+                .Where(n => n.StockProduct.ProductName.Contains(stockStoreOrProductName))
+                .ToListAsync();
         }
 
         // Obter ItemEstoque por storeId e productId

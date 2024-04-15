@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Domain.Models;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Infraestructure.Controllers
 {
+    [Authorize]
     public class StockItemsController : Controller
     {
         private readonly IStockItem _stockItemRepository;
@@ -26,7 +28,7 @@ namespace Infraestructure.Controllers
 
 
         //CREATE
-        //GET: ItemEstoque/Create
+        //GET: StockItems/Create
         public async Task<IActionResult> Create()
         {
 
@@ -47,7 +49,7 @@ namespace Infraestructure.Controllers
             }
         }
 
-        // POST: ItemEstoque/Create
+        // POST: StockItems/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(StockItem itemEstoque)
@@ -59,6 +61,7 @@ namespace Infraestructure.Controllers
 
                 ViewBag.Stores = new SelectList(stores, "StoreId", "StoreName");
                 ViewBag.Products = new SelectList(products, "ProductId", "ProductName");
+                ModelState.AddModelError("", "Erro ao criar registro de item em estoque.");
                 return View(itemEstoque);
             }
 
@@ -71,16 +74,15 @@ namespace Infraestructure.Controllers
         {
             IEnumerable<StockItem> stockItens;
 
-            if (string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
-                stockItens = await _stockItemRepository.GetAllStockItens();
+                stockItens = await _stockItemRepository.GetByProductName(name);
             }
             else
             {
                 stockItens = await _stockItemRepository.GetAllStockItens();
             }
 
-            // Atualizar nomes de Loja e Produto
             foreach (var item in stockItens)
             {
                 var store = await _storeRepository.GetStoreById(item.StockStoreId);
@@ -93,7 +95,7 @@ namespace Infraestructure.Controllers
             return View(stockItens);
         }
 
-        // GET: StockItems/Details/5
+        // GET: StockItems/Details/
         public async Task<IActionResult> Details(int id)
         {
             if (id == null)
@@ -111,27 +113,28 @@ namespace Infraestructure.Controllers
             return View(stockItem);
         }
 
-        // GET: StockItems/Edit/5
+        // GET: StockItems/Edit/{Id}
         public async Task<IActionResult> Edit(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            else 
+            {
+                var products = await _productRepository.GetAllProducts();
+                var stores = await _storeRepository.GetAllStores();
 
-            var products = await _productRepository.GetAllProducts();
-            var stores = await _storeRepository.GetAllStores();
-
-            var stockItem = await _stockItemRepository.GetStocktById(id);
-            ViewData["StockProductId"] = new SelectList(products, "ProductId", "ProductName", stockItem.StockProductId);
-            ViewData["StockStoreId"] = new SelectList(stores, "StoreId", "Adress", stockItem.StockStoreId);
-            return View(stockItem);
+                var stockItem = await _stockItemRepository.GetStockById(id);
+                ViewData["StockProductId"] = new SelectList(products, "ProductId", "ProductName", stockItem.StockProductId);
+                ViewData["StockStoreId"] = new SelectList(stores, "StoreId", "StoreName", stockItem.StockStoreId);
+                return View(stockItem);
+            }
         }
 
         //---------------------------------------------------------------------------------------------------------------
 
-        // POST: StockItems/Edit/
-
+        // POST: StockItems/Edit/{Id}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -176,7 +179,7 @@ namespace Infraestructure.Controllers
             var products = await _productRepository.GetAllProducts();
             var stores = await _storeRepository.GetAllStores();
 
-            var stockItem = await _stockItemRepository.GetStocktById(id);
+            var stockItem = await _stockItemRepository.GetStockById(id);
             ViewData["StockProductId"] = new SelectList(products, "ProductId", "ProductName", stockItem.StockProductId);
             ViewData["StockStoreId"] = new SelectList(stores, "StoreId", "Adress", stockItem.StockStoreId);
             return View(stockItem);

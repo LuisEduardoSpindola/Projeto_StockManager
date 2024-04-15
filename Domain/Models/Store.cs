@@ -15,13 +15,16 @@ public partial class Store
 
     [Required]
     [StringLength(100)]
+    [Display(Name = "Nome da loja")]
     public string StoreName { get; set; }
 
     [Required]
     [StringLength(250)]
+    [Display(Name = "CEP")]
     public string Adress { get; set; }
 
     [StringLength(15)]
+    [Display(Name = "Telefone")]
     public string Phone { get; set; }
 
     [StringLength(100)]

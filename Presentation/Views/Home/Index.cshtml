@@ -2,7 +2,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-
 <br></br>
 <br></br>
 <br></br>
@@ -19,16 +18,16 @@
                 @{
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a asp-controller="ItemEstoque" asp-action="Index" class="btn btn-outline-primary">Verificar Estoque</a>
+                        <a asp-controller="StockItems" asp-action="Index" class="btn btn-outline-primary">Olá! Vamos verificar o estoque?</a>
                     }
                     else
                     {
-                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-primary">Fazer Login</a>
+                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-primary">Entrar</a>
                     }
                 }
             </div>
             <div class="image">
-                <img src="https://i.postimg.cc/qqztnpQG/HomePNG.png">
+                <img src="https://i.postimg.cc/hP9HbqbR/Home-PNG-removebg-preview.png">
             </div>
         </div>
     </div>

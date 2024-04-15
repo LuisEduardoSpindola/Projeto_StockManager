@@ -18,11 +18,41 @@
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Cadastre-se</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Logar</a>
-    </li>
+        <div class="d-flex align-items-center">
+            <li class="nav-item me-2">
+                <a class="btn btn-outline-purple-Nav" id="register" asp-area="Identity" asp-page="/Account/Register">Cadastrar</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-outline-purple-Nav" id="login" asp-area="Identity" asp-page="/Account/Login">Entrar</a>
+            </li>
+        </div>
 }
 </ul>
+
+<style>
+    .btn-outline-purple {
+        color: #6fbbd3;
+        background-color: transparent;
+        border-color: #0000ff;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+        .btn-outline-purple:hover {
+            background-color: #0000ff;
+            color: #ffffff;
+        }
+
+    .btn-outline-purple-Nav {
+        color: #0000ff;
+        background-color: transparent;
+        border-color: #0000ff;
+        transition: background-color 0.3s, color 0.3s;
+        border-radius: 50px;
+    }
+
+        .btn-outline-purple-Nav:hover {
+            background-color: #0000ff;
+            color: #ffffff;
+        }
+
+</style>

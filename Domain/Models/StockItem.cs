@@ -14,18 +14,24 @@ public partial class StockItem
     [Key]
     public int StockId { get; set; }
 
+
+    [Display(Name = "Produto")]
     public int StockProductId { get; set; }
 
+    [Display(Name = "Loja")]
     public int StockStoreId { get; set; }
 
     [Column("QTY")]
+    [Display(Name = "Quantidade")]
     public int QTY { get; set; }
 
     [ForeignKey("StockProductId")]
     [InverseProperty("StockItems")]
+    [Display(Name = "Produto")]
     public virtual Product StockProduct { get; set; }
 
     [ForeignKey("StockStoreId")]
     [InverseProperty("StockItems")]
+    [Display(Name = "Loja")]
     public virtual Store StockStore { get; set; }
 }

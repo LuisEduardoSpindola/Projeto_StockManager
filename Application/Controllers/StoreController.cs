@@ -1,11 +1,13 @@
 ﻿using Application.Interfaces;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
 namespace Application.Controllers
 {
+    [Authorize]
     public class StoreController : Controller
     {
         private readonly IStore _storeRepository;
